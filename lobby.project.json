@@ -16,6 +16,9 @@
       },
       "Lobby": {
         "$path": "src/server/Lobby"
+      },
+      "starter": {
+        "$path": "src/server/starter.server.lua"
       }
     },
     "StarterPlayer": {
