@@ -11,6 +11,7 @@ local RoactSpring = require(ReplicatedStorage.Packages.RoactSpring)
 local e = Roact.createElement
 
 local Background = require(script.components.Background)
+local menuButtons = require(script.components.MenuButtons)
 
 local function CircleButton(props)
 	return e("TextButton", {
@@ -88,7 +89,11 @@ end
 function a:start(player)
 	local root = ReactRoblox.createRoot(Instance.new("Folder"))
 	root:render(ReactRoblox.createPortal({
-		App = e("ScreenGui", { IgnoreGuiInset = true }, { buttonChild = e(Button), background = e(Background) }),
+		App = e(
+			"ScreenGui",
+			{ IgnoreGuiInset = true },
+			{ buttonChild = e(Button), background = e(Background), menuButtons = e(menuButtons) }
+		),
 	}, player.PlayerGui))
 end
 

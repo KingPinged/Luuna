@@ -11,7 +11,7 @@ return function()
 		from = { position = UDim2.new(0, 0, 0, 0) },
 		to = { position = UDim2.new(-1, 0, -1, 0) },
 		loop = true,
-		config = { duration = 15 },
+		config = { duration = 30 },
 	})
 
 	return e("Frame", {
@@ -19,6 +19,7 @@ return function()
 		BorderColor3 = Color3.fromRGB(0, 0, 0),
 		Size = UDim2.fromScale(2, 2),
 		Position = styles.position,
+		ZIndex = -2,
 	}, {
 		pattern = Roact.createElement("ImageLabel", {
 			Image = "rbxassetid://121480522",
@@ -31,7 +32,7 @@ return function()
 			BackgroundTransparency = 1,
 			BorderColor3 = Color3.fromRGB(0, 0, 0),
 			Size = UDim2.fromScale(1, 1),
-			ZIndex = 9,
+			ZIndex = -1,
 		}),
 	})
 end
