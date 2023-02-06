@@ -12,9 +12,7 @@ function PlayerAdded(player)
 	startUpGui:start(player)
 end
 
-function PlayerJoinController:KnitStart() end
-
-function PlayerJoinController:KnitInit()
+function PlayerJoinController:KnitStart()
 	Players.PlayerAdded:Connect(function(player)
 		print("player now addded")
 		PlayerAdded(player)
@@ -28,5 +26,7 @@ function PlayerJoinController:KnitInit()
 		self:PlayerRemoving(player)
 	end)
 end
+
+function PlayerJoinController:KnitInit() end
 
 return PlayerJoinController
