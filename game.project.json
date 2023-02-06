@@ -1,0 +1,36 @@
+{
+  "name": "Luuna",
+  "servePlaceIds": [12370961507],
+  "globIgnorePaths": ["node_modules/@quenty/loader", "**/.package-lock.json"],
+  "tree": {
+    "$className": "DataModel",
+    "ReplicatedStorage": {
+      "Common": {
+        "$path": "src/shared"
+      },
+      "Packages": {
+        "$path": "Packages"
+      }
+    },
+    "ServerScriptService": {
+      "SharedServer": {
+        "$path": "src/server/SharedServer"
+      },
+      "Game": {
+        "$path": "src/server/Game"
+      }
+    },
+    "StarterPlayer": {
+      "$className": "StarterPlayer",
+      "StarterPlayerScripts": {
+        "$className": "StarterPlayerScripts",
+        "SharedClient": {
+          "$path": "src/client/SharedClient"
+        },
+        "Game": {
+          "$path": "src/client/Game"
+        }
+      }
+    }
+  }
+}
