@@ -37,7 +37,7 @@ return function()
 		return {
 			position = UDim2.fromScale(0.35, 0.05 + i * 0.25),
 			transparency = 1,
-			config = { damping = 1, frequency = 0.3 },
+			config = { damping = 1, frequency = 0.3, mass = 1, tension = 410, friction = 20 },
 		}
 	end)
 
