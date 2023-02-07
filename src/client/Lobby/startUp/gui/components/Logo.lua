@@ -8,6 +8,8 @@ local Scaler = require(ReplicatedStorage.ui.Scaler)
 local e = React.createElement
 
 return function(props)
+	local finishedPosition, setFinishedPosition = React.useState(false)
+
 	local styles, api = RoactSpring.useSpring(function()
 		return {
 			position = UDim2.fromScale(0.5, 0),
@@ -16,12 +18,33 @@ return function(props)
 		}
 	end)
 
+	local sizeStyle = RoactSpring.useSpring({
+		size = if finishedPosition then UDim2.fromScale(0.55, 0.45) else UDim2.fromScale(0.5, 0.4),
+		loop = true,
+		config = { mass = 50, clamp = true },
+		-- to = { size = UDim2.fromScale(0.6, 0.5) },
+		-- loop = { reset = true },
+	})
+
+	local rotateStyle = RoactSpring.useSpring({
+		rotation = if finishedPosition then 5 else -5,
+		loop = true,
+		config = { mass = 40, tension = 210, friction = 20, precision = 0.01 },
+		-- to = { size = UDim2.fromScale(0.6, 0.5) },
+		-- loop = { reset = true },
+	})
+
 	React.useEffect(function()
 		task.wait(1)
 
-		api.start({ position = UDim2.fromScale(0.5, 0.4) }):andThen(function()
+		api.start({ position = UDim2.fromScale(0.5, 0.4), config = { precision = 0.001 } }):andThen(function()
 			task.wait(0.5)
 			print("Logo now finished")
+
+			api.stop()
+
+			setFinishedPosition(true)
+
 			props.setLogoFinish(true)
 		end)
 	end)
@@ -32,6 +55,7 @@ return function(props)
 		AnchorPoint = Vector2.new(0.5, 1),
 		BackgroundTransparency = 1,
 		Position = styles.position,
-		Size = UDim2.fromScale(0.5, 0.4),
+		Size = sizeStyle.size,
+		Rotation = if finishedPosition then rotateStyle.rotation else 0,
 	})
 end

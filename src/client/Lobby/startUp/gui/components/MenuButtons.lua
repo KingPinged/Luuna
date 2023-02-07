@@ -47,7 +47,6 @@ return function(props)
 		if not props.logoFinish then
 			return
 		end
-		task.wait(1)
 
 		api.start(function(i)
 			return {
