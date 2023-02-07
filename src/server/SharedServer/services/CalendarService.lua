@@ -125,7 +125,7 @@ end
 --TODO stack the methods that use same methods to use each other
 function CalendarService:KnitStart()
 	print("CalendarService started")
-	timer.Simple(1, function()
+	timer.Simple(60, function()
 		local currentTime = os.time()
 
 		local currentYear = self:GetCurrentYear(currentTime)
