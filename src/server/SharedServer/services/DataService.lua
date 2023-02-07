@@ -12,9 +12,19 @@ local ReplicatedStorage = game:GetService("ReplicatedService")    Client = {},
 --TODO use Knit's Silo package to create state management for player data
 
 
-function DataService:GetDataOfPlayer()
+function DataService:GetDataOfPlayer(player)
 
 end
+
+function DataService:GetServerData(player)
+
+
+end
+
+function DataService:SetDataOfPlayer(player)
+
+end
+
 
 function DataService:KnitStart()
     --TODO add database config
