@@ -32,7 +32,7 @@ local buttonProps = {
 	},
 }
 
-return function()
+return function(props)
 	local finishedSlideIn, setFinishedSlideIn = React.useState(false)
 
 	local springs, api = RoactSpring.useTrail(#buttonProps, function(i)
@@ -44,6 +44,9 @@ return function()
 	end)
 
 	React.useEffect(function()
+		if not props.logoFinish then
+			return
+		end
 		task.wait(1)
 
 		api.start(function(i)
@@ -56,7 +59,7 @@ return function()
 		end)
 
 		--setToggle(true)
-	end, {})
+	end)
 
 	local buttons = {}
 
@@ -66,7 +69,7 @@ return function()
 			AnchorPoint = Vector2.new(0, 0.5),
 			Position = springs[index].position,
 			Transparency = springs[index].transparency,
-			Size = UDim2.fromScale(1, 0.13),
+			Size = UDim2.fromScale(1, 0.2),
 			BackgroundColor3 = Color3.fromRGB(255, 255, 255),
 			AutoButtonColor = false,
 			[React.Event.Activated] = function()

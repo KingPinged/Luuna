@@ -5,12 +5,12 @@ local ReactRoblox = require(ReplicatedStorage.Packages.ReactRoblox)
 
 local e = Roact.createElement
 
-local MenuButtons = require(script.parent.MenuButtons)
+local Logo = require(script.parent.Logo)
 
 return function(target)
 	local root = ReactRoblox.createRoot(Instance.new("Folder"))
 	root:render(ReactRoblox.createPortal({
-		App = e(MenuButtons, { logoFinish = true }),
+		App = e(Logo),
 	}, target))
 
 	return function()
