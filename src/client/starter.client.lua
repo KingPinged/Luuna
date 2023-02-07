@@ -8,7 +8,7 @@ Knit.AddControllers(script.Parent:WaitForChild("SharedClient").controllers)
 
 if game.PlaceId == config.lobbyPlaceId then
 	Knit.AddControllers(script.Parent.Lobby.controllers)
-else game.PlaceId == config.gamePlaceId then
+elseif game.PlaceId == config.gamePlaceId then
 	Knit.AddControllers(script.parent.Game.controllers)
 end
 
