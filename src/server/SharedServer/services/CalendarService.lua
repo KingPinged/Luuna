@@ -165,9 +165,9 @@ function CalendarService:KnitStart()
 			currentHour = 12
 		end
 
-		print(
-			`{seasonProgress} {currentSeason} {currentDayText} |  {string.format("%02d", currentHour)}:{string.format("%02d", currentMinute)} {timeOfDay} | Year {currentYear}`
-		)
+		-- print(
+		-- 	`{seasonProgress} {currentSeason} {currentDayText} |  {string.format("%02d", currentHour)}:{string.format("%02d", currentMinute)} {timeOfDay} | Year {currentYear}`
+		-- )
 	end)
 end
 

@@ -4,6 +4,8 @@ local UserInputService = game:GetService("UserInputService")
 local React = require(ReplicatedStorage.Packages.React)
 local RoactSpring = require(ReplicatedStorage.Packages.RoactSpring)
 
+local Scaler = require(ReplicatedStorage.ui.Scaler)
+
 local e = React.createElement
 
 local buttonProps = {
@@ -35,9 +37,9 @@ return function()
 
 	local springs, api = RoactSpring.useTrail(#buttonProps, function(i)
 		return {
-			position = UDim2.fromScale(0.35, 0.05 + i * 0.25),
+			position = UDim2.fromScale(-0.2, 0.05 + i * 0.25),
 			transparency = 1,
-			config = { damping = 1, frequency = 0.3, mass = 1, tension = 410, friction = 20 },
+			config = { damping = 1, frequency = 0.3, mass = 1, tension = 810, friction = 20 },
 		}
 	end)
 
@@ -46,7 +48,7 @@ return function()
 
 		api.start(function(i)
 			return {
-				position = UDim2.fromScale(0.45, 0.05 + i * 0.25),
+				position = UDim2.fromScale(0, 0.05 + i * 0.25),
 				transparency = 0,
 			}
 		end):andThen(function()
@@ -61,7 +63,7 @@ return function()
 	for index, buttonProp in ipairs(buttonProps) do
 		buttons[index] = e("ImageButton", {
 			Name = buttonProp.text,
-			AnchorPoint = Vector2.new(0.5, 0.5),
+			AnchorPoint = Vector2.new(0, 0.5),
 			Position = springs[index].position,
 			Transparency = springs[index].transparency,
 			Size = UDim2.fromScale(1, 0.13),
@@ -75,12 +77,12 @@ return function()
 					api.start(function(i)
 						if i == index then
 							return {
-								position = UDim2.fromScale(0.5, 0.05 + i * 0.25),
+								position = UDim2.fromScale(0.2, 0.05 + i * 0.25),
 								ZIndex = 10,
 							}
 						end
 						return {
-							position = UDim2.fromScale(0.45, 0.05 + i * 0.25),
+							position = UDim2.fromScale(0.0, 0.05 + i * 0.25),
 							ZIndex = 10,
 						}
 					end)
@@ -90,13 +92,14 @@ return function()
 				if finishedSlideIn then
 					api.start(function(i)
 						return {
-							position = UDim2.fromScale(0.45, 0.05 + i * 0.25),
+							position = UDim2.fromScale(0, 0.05 + i * 0.25),
 							ZIndex = 10,
 						}
 					end)
 				end
 			end,
 		}, {
+			Scaler = e(Scaler, { Size = Vector2.new(150, 150), Scale = 0.2 }),
 			UICorner = e("UICorner"),
 			UIGradient = e("UIGradient", {
 				Color = buttonProp.gradient,
