@@ -31,33 +31,71 @@ local buttonProps = {
 }
 
 return function()
-	local toggle, setToggle = React.useState(false)
+	local finishedSlideIn, setFinishedSlideIn = React.useState(false)
 
-	local springProps = {}
-	for i in ipairs(buttonProps) do
-		table.insert(springProps, {
-			position = UDim2.fromScale(if toggle then 0.45 else 0.35, 0.05 + i * 0.25),
-			transparency = if toggle then 0 else 1,
+	local springs, api = RoactSpring.useTrail(#buttonProps, function(i)
+		return {
+			position = UDim2.fromScale(0.35, 0.05 + i * 0.25),
+			transparency = 1,
 			config = { damping = 1, frequency = 0.3 },
-		})
-	end
-	local springs = RoactSpring.useTrail(#buttonProps, springProps)
+		}
+	end)
 
 	React.useEffect(function()
 		task.wait(1)
-		setToggle(true)
+
+		api.start(function(i)
+			return {
+				position = UDim2.fromScale(0.45, 0.05 + i * 0.25),
+				transparency = 0,
+			}
+		end):andThen(function()
+			setFinishedSlideIn(true)
+		end)
+
+		--setToggle(true)
 	end, {})
 
 	local buttons = {}
 
 	for index, buttonProp in ipairs(buttonProps) do
 		buttons[index] = e("ImageButton", {
+			Name = buttonProp.text,
 			AnchorPoint = Vector2.new(0.5, 0.5),
 			Position = springs[index].position,
 			Transparency = springs[index].transparency,
 			Size = UDim2.fromScale(1, 0.13),
 			BackgroundColor3 = Color3.fromRGB(255, 255, 255),
 			AutoButtonColor = false,
+			[React.Event.Activated] = function()
+				print("Button clicked")
+			end,
+			[React.Event.InputBegan] = function(_)
+				if finishedSlideIn then
+					api.start(function(i)
+						if i == index then
+							return {
+								position = UDim2.fromScale(0.5, 0.05 + i * 0.25),
+								ZIndex = 10,
+							}
+						end
+						return {
+							position = UDim2.fromScale(0.45, 0.05 + i * 0.25),
+							ZIndex = 10,
+						}
+					end)
+				end
+			end,
+			[React.Event.InputEnded] = function(_)
+				if finishedSlideIn then
+					api.start(function(i)
+						return {
+							position = UDim2.fromScale(0.45, 0.05 + i * 0.25),
+							ZIndex = 10,
+						}
+					end)
+				end
+			end,
 		}, {
 			UICorner = e("UICorner"),
 			UIGradient = e("UIGradient", {
