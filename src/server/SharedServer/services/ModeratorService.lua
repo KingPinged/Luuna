@@ -18,6 +18,8 @@ local banList = {
 local Promise = require(ReplicatedStorage.Packages.Promise)
 
 
+local DataService 
+
 --do not make direct method of service to prevent potential abuse / all banning must be handled HERE
 function BanPlayer(player)
 
@@ -58,6 +60,10 @@ end
 
 function ModeratorService.Client:CheckPlayerModerated(player)
     return self.Server:CheckPlayerModerated(player)
+end
+
+function ModeratorService:KnitStart()
+    DataService = Knit.GetService("DataService")
 end
 
 
