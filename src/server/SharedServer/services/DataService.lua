@@ -3,6 +3,7 @@ local Players = game:GetService("Players")
 
 local Knit = require(ReplicatedStorage.Packages.Knit)
 
+local Concur = require(ReplicatedStorage.Packages.Concur)
 local ProfileService = require(ReplicatedStorage.Packages.ProfileService)
 
 local config = require(ReplicatedStorage.config)
@@ -48,6 +49,28 @@ function DataService:AddNewPlayerData(player)
 		--   Roblox servers trying to load this profile at the same time:
 		player:Kick()
 	end
+end
+
+--this does not kick the player, should it?
+function DataService:RemovePlayer(player)
+	local profile = playersData[player]
+	if profile ~= nil then
+		profile:Release()
+	end
+end
+
+function DataService:KnitInit()
+	game:BindToClose(function()
+		local all = {}
+		for _, player in Players:GetPlayers() do
+			local save = Concur.spawn(function()
+				self:RemovePlayer(player)
+			end)
+			table.insert(all, save)
+		end
+		local allConcur = Concur.all(all)
+		allConcur:Await()
+	end)
 end
 
 return DataService
