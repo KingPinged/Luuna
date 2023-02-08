@@ -6,6 +6,8 @@ local PlayerService = Knit.CreateService({
 	Client = {},
 })
 
+local Timer = require(ReplicatedStorage.Packages.Timer)
+
 local Players = game:GetService("Players")
 
 --TODO does getting a service require it to be loaded by lifecycle first?
@@ -20,7 +22,13 @@ function AddPlayer(player)
 	DataService:AddNewPlayerData(player)
 end
 
-function PlayerService:KnitStart() end
+function PlayerService:KnitStart()
+	Timer.Simple(60, function()
+		for _, player in pairs(PlayerService:GetPlayers()) do
+			ModeratorService:CheckPlayerModerated(player)
+		end
+	end)
+end
 
 function PlayerService:KnitInit()
 	ModeratorService = Knit.GetService("ModeratorService")

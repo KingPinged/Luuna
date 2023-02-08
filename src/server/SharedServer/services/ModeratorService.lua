@@ -11,6 +11,7 @@ local config = require(ReplicatedStorage.config)
 local banList = {}
 
 local Promise = require(ReplicatedStorage.Packages.Promise)
+local Timer = require(ReplicatedStorage.Packages.Timer)
 
 local DataService
 local LogService = Knit.GetService("LogService")
@@ -37,6 +38,7 @@ function KickPlayer(player)
 	)
 end
 
+--this is also called in PlayerService every 60 seconds
 function ModeratorService:CheckPlayerModerated(player)
 	--this may not be as performant as just checking a dictionary key if banList becomes too big
 	for _, v in banList do
