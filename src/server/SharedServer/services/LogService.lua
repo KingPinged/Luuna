@@ -3,6 +3,7 @@ local Knit = require(ReplicatedStorage.Packages.Knit)
 
 local config = require(ReplicatedStorage.config)
 
+local Promise = require(ReplicatedStorage.Packages.Promise)
 local EnumList = require(ReplicatedStorage.Packages.EnumList)
 
 local LogService = Knit.CreateService({
@@ -47,7 +48,12 @@ function LogService:GetLogHistory(fromTime, toTime)
 	return logHistory
 end
 
-function LogService:KnitStart() end
+function LogService:KnitStart()
+	game:BindToClose(function()
+		LogService:Log("Server closed", levelList.ServerLog, "LogService")
+		--TODO send to analytics server
+	end)
+end
 
 function LogService:KnitInit() end
 
