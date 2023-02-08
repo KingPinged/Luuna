@@ -21,11 +21,11 @@ local levelList = EnumList.new("Level", {
 
 local logs = {} -- ALL logs are stored here
 
-function LogService:Log(message, level)
+function LogService:Log(message, level, origin)
 	if not levelList.BelongsTo(level) then
 		return
 	end
-	logs[os.time()] = `[{level}|v({config.version})]: {message}`
+	logs[os.time()] = `[{origin}|{level}|v({config.version})]: {message}`
 
 	--TODO send to analytics server
 end

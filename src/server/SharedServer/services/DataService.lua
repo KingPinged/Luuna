@@ -16,14 +16,25 @@ local DataService = Knit.CreateService({
 
 local ProfileStore = ProfileService.GetProfileStore("PlayerData", dataTemplate)
 
+local gameData = {}
+
 local playersData = {}
 
 --TODO should we use Knit's Silo package to create state management for player data?
 
-function DataService:GetDataOfPlayer(player) end
+function DataService:GetDataOfPlayer(player)
+	local profile = playersData[player]
+	if profile ~= nil then
+		return profile.Data
+	end
+	return nil
+end
 
-function DataService:GetServerData(player) end
+function DataService:GetServerPlayerData(player)
+	return playersData
+end
 
+--TODO think of a good way to handle setting data without replacing entire dataTable
 function DataService:SetDataOfPlayer(player) end
 
 function DataService:AddNewPlayerData(player)
