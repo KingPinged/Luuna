@@ -1,8 +1,8 @@
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Knit = require(ReplicatedStorage.Packages.Knit)
 
-local PlayerJoinService = Knit.CreateService({
-	Name = "PlayerJoinService",
+local PlayerService = Knit.CreateService({
+	Name = "PlayerService",
 	Client = {},
 })
 
@@ -15,22 +15,22 @@ local DataService = Knit.GetService("DataService")
 local players = {}
 
 --TODO maybe not use player as index but id?
-function PlayerJoined(player)
+function Playered(player)
 	players[player] = player
 	DataService:AddNewPlayerData(player)
 end
 
-function PlayerJoinService:KnitStart() end
+function PlayerService:KnitStart() end
 
-function PlayerJoinService:KnitInit()
+function PlayerService:KnitInit()
 	ModeratorService = Knit.GetService("ModeratorService")
 	PlayerService.PlayerAdded:Connect(function(player)
-		PlayerJoined(player)
+		Playered(player)
 	end)
 
 	for _, player in pairs(PlayerService:GetPlayers()) do
-		PlayerJoined(player)
+		Playered(player)
 	end
 end
 
-return PlayerJoinService
+return PlayerService
