@@ -8,14 +8,16 @@ local PlayerJoinService = Knit.CreateService({
 
 local PlayerService = game:GetService("Players")
 
---todo does getting a service require it to be loaded by lifecycle first?
-local ModeratorService
+--TODO does getting a service require it to be loaded by lifecycle first?
+local ModeratorService = Knit.GetService("ModeratorService")
+local DataService = Knit.GetService("DataService")
 
 local players = {}
 
---todo maybe not use player as index but id?
+--TODO maybe not use player as index but id?
 function PlayerJoined(player)
 	players[player] = player
+	DataService:AddNewPlayerData(player)
 end
 
 function PlayerJoinService:KnitStart() end
