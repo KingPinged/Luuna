@@ -3,6 +3,9 @@ local Players = game:GetService("Players")
 
 local Knit = require(ReplicatedStorage.Packages.Knit)
 
+local LogService = Knit.GetService("LogService")
+
+
 local Concur = require(ReplicatedStorage.Packages.Concur)
 local ProfileService = require(ReplicatedStorage.Packages.ProfileService)
 
@@ -49,11 +52,21 @@ function DataService:AddNewPlayerData(player)
 		end)
 		if player:IsDescendantOf(Players) == true then
 			playersData[player] = profile
-			print("Profile successfully loaded")
+
+			LogService:Log(
+				`Player {player.Name} data loaded successfully`,
+				"ServerLog",
+				"DataService",
+			)
 		else
 			-- Player left before the profile loaded:
 			profile:Release()
-			print("Player left before loaded")
+
+			LogService:Log(
+				`Player {player.Name} left before data loaded`,
+				"ServerLog",
+				"DataService",
+			)
 		end
 	else
 		-- The profile couldn't be loaded possibly due to other
