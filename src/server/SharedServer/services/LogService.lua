@@ -26,11 +26,16 @@ function LogService:Log(message, level, origin, shouldWarn)
 	if not levelList.BelongsTo(level) then
 		return
 	end
-	logs[os.time()] = `[{origin}|{level}|v({config.version})]: {message}`
+
+	local logContent = `[{origin}|{level}|v({config.version})]: {message}`
+	logs[os.time()] = logContent
 
 	if shouldWarn then
-	warn(`[{origin}|{level}|v({config.version})]: {message}`)
+		warn(logContent)
 	end
+
+	return logContent
+
 	--TODO send to analytics server
 end
 
