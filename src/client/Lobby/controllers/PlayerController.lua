@@ -5,14 +5,14 @@ local Knit = require(ReplicatedStorage.Packages.Knit)
 
 local startUpGui = require(script.parent.parent.parent.Lobby.startUp.gui)
 
-local PlayerJoinController = Knit.CreateController({ Name = "PlayerJoinController" })
+local PlayerController = Knit.CreateController({ Name = "PlayerController" })
 
 function PlayerAdded(player)
 	print("calling startUpGui module")
 	startUpGui:start(player)
 end
 
-function PlayerJoinController:KnitStart()
+function PlayerController:KnitStart()
 	Players.PlayerAdded:Connect(function(player)
 		print("player now addded")
 		PlayerAdded(player)
@@ -27,6 +27,6 @@ function PlayerJoinController:KnitStart()
 	end)
 end
 
-function PlayerJoinController:KnitInit() end
+function PlayerController:KnitInit() end
 
-return PlayerJoinController
+return PlayerController
