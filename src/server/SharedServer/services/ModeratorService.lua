@@ -50,14 +50,27 @@ function ModeratorService:CheckPlayerModerated(player)
 	if playerData then
 		if playerData.banData.isBanned then
 			if os.time() < playerData.banData.banEndTime then
-				player:Kick(
-					`You are banned until {playerData.banData.banEndTime} due to {playerData.banData.banReason}`
-				)
-				LogService:Log(
-					`Player {player.Name} has been kicked by ban. Banned until {playerData.banData.banEndTime} due to {playerData.banData.banReason}`,
-					"ServerLog",
-					"ModeratorService"
-				)
+				--the question is, can Player:Kick() even error?
+				Promise.new(function(resolve, reject, onCancel)
+					player:Kick(
+						`You are banned until {playerData.banData.banEndTime} due to {playerData.banData.banReason}`
+					)
+					resolve("Kicked")
+				end)
+					:andThen(function()
+						LogService:Log(
+							`Player {player.Name} has been kicked by ban. Banned until {playerData.banData.banEndTime} due to {playerData.banData.banReason}`,
+							"ServerLog",
+							"ModeratorService"
+						)
+					end)
+					:catch(function(err)
+						LogService:Log(
+							`Failed to kick player {player.Name} due to {err}`,
+							"ServerError",
+							"ModeratorService"
+						)
+					end)
 			else
 				--TODO unban player and change Database entry
 
