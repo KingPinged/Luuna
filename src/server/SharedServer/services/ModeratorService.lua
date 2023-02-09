@@ -19,12 +19,12 @@ local LogService
 --do not make direct method of service to prevent potential abuse / all banning must be handled HERE
 function BanPlayer(player) end
 
-function KickPlayer(player)
+function ModeratorService:KickPlayer(player, reason)
 	--todo: add a delay between each try
 	Promise.retry(
 		Promise.new(function(resolve, reject)
 			local success, result = pcall(function()
-				return player:Kick()
+				return player:Kick(reason or "No reason given")
 			end)
 
 			if not success then
@@ -43,7 +43,7 @@ function ModeratorService:CheckPlayerModerated(player)
 	--this may not be as performant as just checking a dictionary key if banList becomes too big
 	for _, v in banList do
 		if v == player.UserId then
-			player:Kick()
+			self:KickPlayer(player)
 		end
 	end
 
@@ -54,7 +54,8 @@ function ModeratorService:CheckPlayerModerated(player)
 			if os.time() < playerData.banData.banEndTime then
 				--the question is, can Player:Kick() even error?
 				Promise.new(function(resolve, reject, onCancel)
-					player:Kick(
+					self:KickPlayer(
+						player,
 						`You are banned until {playerData.banData.banEndTime} due to {playerData.banData.banReason}`
 					)
 					resolve("Kicked")

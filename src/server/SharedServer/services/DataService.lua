@@ -16,10 +16,11 @@ local DataService = Knit.CreateService({
 	Client = {},
 })
 
+local ModeratorService
+
 local ProfileStore = ProfileService.GetProfileStore("PlayerData", dataTemplate)
 
 local gameData = {}
-
 local playersData = {}
 
 --TODO should we use Knit's Silo package to create state management for player data?
@@ -62,7 +63,7 @@ function DataService:AddNewPlayerData(player)
 	else
 		-- The profile couldn't be loaded possibly due to other
 		--   Roblox servers trying to load this profile at the same time:
-		player:Kick()
+		ModeratorService:KickPlayer(player)
 
 		--TODO link kick to moderator service
 
@@ -84,6 +85,7 @@ function DataService:RemovePlayer(player)
 end
 
 function DataService:KnitStart()
+	ModeratorService = Knit.GetService("ModeratorService")
 	LogService = Knit.GetService("LogService")
 end
 
