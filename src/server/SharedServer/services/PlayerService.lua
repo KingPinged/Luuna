@@ -17,8 +17,11 @@ local players = {}
 
 --TODO maybe not use player as index but id?
 function AddPlayer(player)
+	if players[player] then
+		return false
+	end
 	players[player] = player
-	DataService:AddNewPlayerData(player)
+	return DataService:AddNewPlayerData(player)
 end
 
 function RemovePlayer(player)
