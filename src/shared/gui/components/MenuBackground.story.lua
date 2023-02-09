@@ -5,7 +5,7 @@ local ReactRoblox = require(ReplicatedStorage.Packages.ReactRoblox)
 
 local e = Roact.createElement
 
-local BackgroundComponent = require(script.parent.Background)
+local BackgroundComponent = require(script.parent.MenuBackground)
 
 local controls = {
 	duration = 30,

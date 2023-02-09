@@ -8,7 +8,7 @@ local RoactSpring = require(ReplicatedStorage.Packages.RoactSpring)
 
 local e = Roact.createElement
 
-local Background = require(ReplicatedStorage.gui.components.Background)
+local Background = require(ReplicatedStorage.gui.components.MenuBackground)
 local menuButtons = require(ReplicatedStorage.gui.components.MenuButtons)
 local Logo = require(ReplicatedStorage.gui.components.Logo)
 
@@ -21,6 +21,7 @@ function ScreenGui()
 		logo = e(Logo, { setLogoFinish = setLogoFinish }),
 	})
 end
+
 function start(player)
 	local root = ReactRoblox.createRoot(Instance.new("Folder"))
 	root:render(ReactRoblox.createPortal({
