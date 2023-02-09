@@ -74,7 +74,6 @@ function LogService:KnitStart()
 
 	game:BindToClose(function()
 		LogService:Log(nil, "Server closed", levelList.ServerLog, "LogService")
-		--TODO send to analytics server
 	end)
 end
 

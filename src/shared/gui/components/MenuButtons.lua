@@ -68,7 +68,7 @@ return function(props)
 			AnchorPoint = Vector2.new(0, 0.5),
 			Position = springs[index].position,
 			Transparency = springs[index].transparency,
-			Size = UDim2.fromScale(1, 0.2),
+			Size = UDim2.fromScale(1, 0.25),
 			BackgroundColor3 = Color3.fromRGB(255, 255, 255),
 			AutoButtonColor = false,
 			[React.Event.Activated] = function()
