@@ -12,7 +12,7 @@ local controls = {
 }
 
 return {
-	summary = "This is a Hoarcekat component that has been converted for flipbook!",
+	summary = "The backgound that appears in game start",
 	react = Roact,
 	controls = controls,
 	reactRoblox = ReactRoblox,

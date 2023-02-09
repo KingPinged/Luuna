@@ -4,7 +4,7 @@ local UserInputService = game:GetService("UserInputService")
 local React = require(ReplicatedStorage.Packages.React)
 local RoactSpring = require(ReplicatedStorage.Packages.RoactSpring)
 
-local Scaler = require(ReplicatedStorage.ui.Scaler)
+local Scaler = require(ReplicatedStorage.gui.scaler)
 
 local e = React.createElement
 

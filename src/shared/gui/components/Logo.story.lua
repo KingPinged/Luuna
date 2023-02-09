@@ -7,13 +7,13 @@ local e = Roact.createElement
 
 local Logo = require(script.parent.Logo)
 
-return function(target)
-	local root = ReactRoblox.createRoot(Instance.new("Folder"))
-	root:render(ReactRoblox.createPortal({
-		App = e(Logo),
-	}, target))
+local controls = {}
 
-	return function()
-		root:unmount()
-	end
-end
+return {
+	summary = "the logo that appears in game start ",
+	react = Roact,
+	reactRoblox = ReactRoblox,
+	story = function()
+		return e(Logo)
+	end,
+}

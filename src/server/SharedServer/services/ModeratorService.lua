@@ -14,7 +14,7 @@ local Promise = require(ReplicatedStorage.Packages.Promise)
 local Timer = require(ReplicatedStorage.Packages.Timer)
 
 local DataService
-local LogService = Knit.GetService("LogService")
+local LogService
 
 --do not make direct method of service to prevent potential abuse / all banning must be handled HERE
 function BanPlayer(player) end
@@ -93,6 +93,7 @@ function ModeratorService.Client:CheckPlayerModerated(player)
 end
 
 function ModeratorService:KnitStart()
+	LogService = Knit.GetService("LogService")
 	DataService = Knit.GetService("DataService")
 end
 

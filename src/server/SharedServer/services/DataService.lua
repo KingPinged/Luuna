@@ -3,13 +3,13 @@ local Players = game:GetService("Players")
 
 local Knit = require(ReplicatedStorage.Packages.Knit)
 
-local LogService = Knit.GetService("LogService")
+local LogService
 
 local Concur = require(ReplicatedStorage.Packages.Concur)
 local ProfileService = require(ReplicatedStorage.Packages.ProfileService)
 
 local config = require(ReplicatedStorage.config)
-local dataTemplate = require(ReplicatedStorage.dataTemplate)
+local dataTemplate = config.dataTemplate
 
 local DataService = Knit.CreateService({
 	Name = "DataService",
@@ -72,6 +72,10 @@ function DataService:RemovePlayer(player)
 	if profile ~= nil then
 		profile:Release()
 	end
+end
+
+function DataService:KnitStart()
+	LogService = Knit.GetService("LogService")
 end
 
 function DataService:KnitInit()

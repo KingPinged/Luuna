@@ -7,7 +7,7 @@ local Promise = require(ReplicatedStorage.Packages.Promise)
 
 local Knit = require(ReplicatedStorage.Packages.Knit)
 
-local LogService = Knit.GetService("LogService")
+local LogService
 
 local TeleportService = Knit.CreateService({
 	Name = "TeleportService",
@@ -19,7 +19,6 @@ local TeleportService = Knit.CreateService({
 function TeleportService:TeleportPlayer(player)
 	Promise.retry(
 		Promise.new(function(resolve, reject)
-
 			local success, result = pcall(function()
 				return RobloxTeleportService:TeleportAsync(config.gamePLaceId, { player })
 			end)
@@ -31,24 +30,23 @@ function TeleportService:TeleportPlayer(player)
 			end
 		end),
 		config.maxTeleportTries
-	):andThen(function(result)
-		LogService:Log(
-			`Player {player.Name} teleported successfully: {result}`,
-			"ServerLog",
-			"TeleportService",
-			true
-		)
-	end):catch(function(err)
-		LogService:Log(
-			`Player {player.Name} failed to teleport: {err}`,
-			"ServerError",
-			"TeleportService",
-			true
-		)
-	end)
+	)
+		:andThen(function(result)
+			LogService:Log(
+				`Player {player.Name} teleported successfully: {result}`,
+				"ServerLog",
+				"TeleportService",
+				true
+			)
+		end)
+		:catch(function(err)
+			LogService:Log(`Player {player.Name} failed to teleport: {err}`, "ServerError", "TeleportService", true)
+		end)
 end
 
-function TeleportService:KnitStart() end
+function TeleportService:KnitStart()
+	LogService = Knit.GetService("LogService")
+end
 
 function TeleportService:KnitInit()
 	self.Client.playerTeleported:Connect(function(player)

@@ -1,4 +1,3 @@
-local a = {}
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
@@ -23,11 +22,11 @@ function ScreenGui()
 		logo = e(Logo, { setLogoFinish = setLogoFinish }),
 	})
 end
-function a:start(player)
+function start(player)
 	local root = ReactRoblox.createRoot(Instance.new("Folder"))
 	root:render(ReactRoblox.createPortal({
 		App = e(ScreenGui),
 	}, player.PlayerGui))
 end
 
-return a
+start(game.Players.LocalPlayer)
