@@ -68,11 +68,9 @@ end
 
 function LogService:KnitStart()
 	GameAnalytics:configureBuild(config.version)
+	GameAnalytics:setEnabledInfoLog(true)
+	GameAnalytics:setEnabledVerboseLog(true)
 	GameAnalytics:initServer("f7d2d1a65adb0823f22b8c1e6f738586", "4e21ec6d38d7a19bf6d6a41680698b5be4941302")
-	GameAnalytics:initialize({
-		automaticSendBusinessEvents = true,
-		-- more settings
-	})
 
 	game:BindToClose(function()
 		LogService:Log(nil, "Server closed", levelList.ServerLog, "LogService")
