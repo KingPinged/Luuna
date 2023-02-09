@@ -37,7 +37,7 @@ function PlayerService:KnitStart()
 		AddPlayer(player)
 	end)
 
-	for _, player in pairs(PlayerService:GetPlayers()) do
+	for _, player in pairs(Players:GetPlayers()) do
 		AddPlayer(player)
 	end
 
