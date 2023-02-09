@@ -5,13 +5,11 @@ local ReactRoblox = require(ReplicatedStorage.Packages.ReactRoblox)
 
 local e = Roact.createElement
 
-local MenuButtons = require(script.parent.MenuButtons)
+local MenuButtons = require(script.Parent.MenuButtons)
 
 return {
 	summary = "the buttons that appear in game start",
 	react = Roact,
 	reactRoblox = ReactRoblox,
-	story = function()
-		return e(MenuButtons, { logoFinish = true })
-	end,
+	story = e(MenuButtons, { logoFinish = true }),
 }
