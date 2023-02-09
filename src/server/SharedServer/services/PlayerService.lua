@@ -46,7 +46,7 @@ function PlayerService:KnitStart()
 	end)
 
 	Timer.Simple(60, function()
-		for _, player in pairs(PlayerService:GetPlayers()) do
+		for _, player in pairs(Players:GetPlayers()) do
 			ModeratorService:CheckPlayerModerated(player)
 		end
 	end)
