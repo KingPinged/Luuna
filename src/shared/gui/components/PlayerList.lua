@@ -30,6 +30,8 @@ return function(props)
 	end)
 
 
+    --TODO: playerlist will be a trail spring that will show all players in the server
+
 	return e("Frame", {
 		BackgroundTransparency = styles.BackgroundTransparency,
 		Size = styles.size,
