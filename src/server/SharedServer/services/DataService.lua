@@ -52,12 +52,12 @@ function DataService:AddNewPlayerData(player)
 		if player:IsDescendantOf(Players) == true then
 			playersData[player] = profile
 
-			return LogService:Log(`Player {player.Name} data loaded successfully`, "ServerLog", "DataService")
+			return LogService:Log(player, `Player {player.Name} data loaded successfully`, "ServerLog", "DataService")
 		else
 			-- Player left before the profile loaded:
 			profile:Release()
 
-			return LogService:Log(`Player {player.Name} left before data loaded`, "ServerLog", "DataService")
+			return LogService:Log(player, `Player {player.Name} left before data loaded`, "ServerLog", "DataService")
 		end
 	else
 		-- The profile couldn't be loaded possibly due to other
@@ -67,6 +67,7 @@ function DataService:AddNewPlayerData(player)
 		--TODO link kick to moderator service
 
 		return LogService:Log(
+			player,
 			`Kicked Player {player.Name} because their profile couldn't be loaded`,
 			"ServerLog",
 			"DataService"

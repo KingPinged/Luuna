@@ -33,6 +33,7 @@ function TeleportService:TeleportPlayer(player)
 	)
 		:andThen(function(result)
 			LogService:Log(
+				player,
 				`Player {player.Name} teleported successfully: {result}`,
 				"ServerLog",
 				"TeleportService",
@@ -40,7 +41,13 @@ function TeleportService:TeleportPlayer(player)
 			)
 		end)
 		:catch(function(err)
-			LogService:Log(`Player {player.Name} failed to teleport: {err}`, "ServerError", "TeleportService", true)
+			LogService:Log(
+				player,
+				`Player {player.Name} failed to teleport: {err}`,
+				"ServerError",
+				"TeleportService",
+				true
+			)
 		end)
 end
 

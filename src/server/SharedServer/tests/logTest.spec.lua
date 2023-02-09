@@ -16,7 +16,7 @@ return function()
 
 	describe("logService", function()
 		it("should give correct syntax for log", function()
-			local message = LogService:Log("test", "ServerLog", "test", true)
+			local message = LogService:Log(nil, "test", "ServerLog", "test", true)
 			expect(message).to.equal("[test|ServerLog|v({config.version})]: test")
 		end)
 	end)

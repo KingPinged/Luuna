@@ -7,6 +7,7 @@ local config = require(ReplicatedStorage.config)
 
 local Promise = require(ReplicatedStorage.Packages.Promise)
 local EnumList = require(ReplicatedStorage.Packages.EnumList)
+local GameAnalytics = require(ReplicatedStorage.Packages.GameAnalytics)
 
 local LogService = Knit.CreateService({
 	Name = "LogService",
@@ -24,7 +25,7 @@ local levelList = EnumList.new("Level", {
 
 local logs = {} -- ALL logs are stored here
 
-function LogService:Log(message, level, origin, shouldWarn)
+function LogService:Log(player, message, level, origin, shouldWarn)
 	if not levelList.BelongsTo(level) then
 		return
 	end
@@ -35,6 +36,13 @@ function LogService:Log(message, level, origin, shouldWarn)
 	if shouldWarn then
 		warn(logContent)
 	end
+
+	GameAnalytics:addErrorEvent((player and player.UserId) or "server", {
+		severity = if level == levelList.ServerError or level == levelList.ClientError
+			then GameAnalytics.EGAErrorSeverity.error
+			else GameAnalytics.EGAErrorSeverity.info,
+		message = logContent,
+	})
 
 	return logContent
 
@@ -59,8 +67,15 @@ function LogService:GetLogHistory(fromTime, toTime)
 end
 
 function LogService:KnitStart()
+	GameAnalytics:configureBuild(config.version)
+	GameAnalytics:initServer("f7d2d1a65adb0823f22b8c1e6f738586", "4e21ec6d38d7a19bf6d6a41680698b5be4941302")
+	GameAnalytics:initialize({
+		automaticSendBusinessEvents = true,
+		-- more settings
+	})
+
 	game:BindToClose(function()
-		LogService:Log("Server closed", levelList.ServerLog, "LogService")
+		LogService:Log(nil, "Server closed", levelList.ServerLog, "LogService")
 		--TODO send to analytics server
 	end)
 end

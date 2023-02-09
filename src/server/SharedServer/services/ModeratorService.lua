@@ -61,6 +61,7 @@ function ModeratorService:CheckPlayerModerated(player)
 				end)
 					:andThen(function()
 						LogService:Log(
+							player,
 							`Player {player.Name} has been kicked by ban. Banned until {playerData.banData.banEndTime} due to {playerData.banData.banReason}`,
 							"ServerLog",
 							"ModeratorService"
@@ -68,6 +69,7 @@ function ModeratorService:CheckPlayerModerated(player)
 					end)
 					:catch(function(err)
 						LogService:Log(
+							player,
 							`Failed to kick player {player.Name} due to {err}`,
 							"ServerError",
 							"ModeratorService"
@@ -77,6 +79,7 @@ function ModeratorService:CheckPlayerModerated(player)
 				--TODO unban player and change Database entry
 
 				LogService:Log(
+					player,
 					`Player {player.Name} has been unbanned. Expired at {playerData.banData.banEndTime} from {playerData.banData.banReason}`,
 					"ServerLog",
 					"ModeratorService"
@@ -84,7 +87,7 @@ function ModeratorService:CheckPlayerModerated(player)
 			end
 		end
 	else
-		LogService:Log(`Player {player.Name} has no data entry`, "ServerError", "ModeratorService")
+		LogService:Log(player, `Player {player.Name} has no data entry`, "ServerError", "ModeratorService")
 	end
 end
 
