@@ -8,6 +8,7 @@ return {
 	dataTemplate = { -- the default data object for the database
 		banData = { isBanned = false, banExpires = 0, banReasons = {} },
 		saveData = {}, --future proof saves for different profiles of same account, ATM only one profile per account
+		settings = {},
 	},
 	saveTemplate = {},
 }
