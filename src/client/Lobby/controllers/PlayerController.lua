@@ -3,10 +3,17 @@ local Players = game:GetService("Players")
 
 local Knit = require(ReplicatedStorage.Packages.Knit)
 
+local React = require(ReplicatedStorage.Packages.React)
+local ReactRoblox = require(ReplicatedStorage.Packages.ReactRoblox)
+
+local e = React.createElement
+
 local PreferredInput = require(ReplicatedStorage.Packages.Input).PreferredInput
 local Keyboard = require(ReplicatedStorage.Packages.Input).Keyboard
 
 local PlayerController = Knit.CreateController({ Name = "PlayerController" })
+
+local PlayerList = require(ReplicatedStorage.gui.components.PlayerList)
 
 local player = game.Players.LocalPlayer
 
@@ -14,25 +21,34 @@ function PlayerAdded(player) end
 
 function RemovePlayer(player) end
 
-function CreatePlayerList()
+function removeCoreGui()
 	--remove some guis that are not needed at all
 	game.StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.PlayerList, false)
 	game.StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.EmotesMenu, false)
 	game.StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Backpack, false)
 	game.StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Health, false)
+end
 
+function CreatePlayerList()
 	--? does PrefferedInput work automatically sync as state?
 	--local connection = PreferredInput.Observe(function(preferred) end)
 
+	local root = ReactRoblox.createRoot(Instance.new("Folder"))
+
 	Keyboard.KeyDown:Connect(function(key)
 		if Enum.KeyCode.Tab == key and PreferredInput.current == "MouseKeyboard" then
-			--TODO make the playerlist visible like in minecraft
+			root:render(ReactRoblox.createPortal({
+				App = e("ScreenGui",{ IgnoreGuiInset = true },{
+					playerList = e(PlayerList)
+				}),
+			}, player.PlayerGui))
 		end
 	end)
 
 	Keyboard.KeyUp:Connect(function(key)
 		if Enum.KeyCode.Tab == key and PreferredInput.current == "MouseKeyboard" then
-			--TODO make the playerlist NOT visible like in minecraft
+			--! mom im scared root wont exist when key up :(
+			root:unmount()
 		end
 	end)
 
@@ -40,6 +56,7 @@ function CreatePlayerList()
 end
 
 function PlayerController:KnitStart()
+	removeCoreGui()
 	CreatePlayerList()
 	Players.PlayerAdded:Connect(function(player)
 		print("player now addded")
