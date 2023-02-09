@@ -5,9 +5,9 @@ local config = require(ReplicatedStorage:WaitForChild("config"))
 if game.PlaceId == config.lobbyPlaceId then
 	Knit.AddServices(script.Parent.Parent.Parent.Lobby.services)
 elseif game.PlaceId == config.gamePlaceId then
-	Knit.AddControllers(script.parent.Game.controllers)
+	Knit.AddServices(script.Parent.Parent.Parent.Game.services)
 end
-Knit.AddServices(script.Parent.Parent.services)
+Knit.AddServices(script.Parent.Parent.Parent.SharedServer.services)
 
 Knit.Start():catch(warn)
 

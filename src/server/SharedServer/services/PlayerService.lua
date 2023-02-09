@@ -22,6 +22,11 @@ function AddPlayer(player)
 	DataService:AddNewPlayerData(player)
 end
 
+function RemovePlayer(player)
+	players[player] = nil
+	DataService:RemovePlayer(player)
+end
+
 function PlayerService:KnitStart()
 	Timer.Simple(60, function()
 		for _, player in pairs(PlayerService:GetPlayers()) do
@@ -41,7 +46,7 @@ function PlayerService:KnitInit()
 	end
 
 	Players.PlayerRemoving:Connect(function(player)
-		DataService:RemovePlayer(player)
+		RemovePlayer(player)
 	end)
 end
 

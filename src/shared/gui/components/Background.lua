@@ -1,17 +1,16 @@
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local Roact = require(ReplicatedStorage.Packages.React)
-local ReactRoblox = require(ReplicatedStorage.Packages.ReactRoblox)
 local RoactSpring = require(ReplicatedStorage.Packages.RoactSpring)
 
 local e = Roact.createElement
 
-return function()
+return function(props)
 	local styles = RoactSpring.useSpring({
 		from = { position = UDim2.new(0, 0, 0, 0) },
 		to = { position = UDim2.new(-1, 0, -1, 0) },
 		loop = true,
-		config = { duration = 30 },
+		config = { duration = tonumber(props.duration) or 30 },
 	})
 
 	return e("Frame", {
