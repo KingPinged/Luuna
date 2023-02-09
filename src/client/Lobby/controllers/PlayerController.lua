@@ -13,7 +13,7 @@ local Keyboard = require(ReplicatedStorage.Packages.Input).Keyboard
 
 local PlayerController = Knit.CreateController({ Name = "PlayerController" })
 
-local PlayerList = require(ReplicatedStorage.gui.components.PlayerList)
+local TabList = require(ReplicatedStorage.gui.components.TabList)
 
 local player = game.Players.LocalPlayer
 
@@ -38,8 +38,8 @@ function CreatePlayerList()
 	Keyboard.KeyDown:Connect(function(key)
 		if Enum.KeyCode.Tab == key and PreferredInput.current == "MouseKeyboard" then
 			root:render(ReactRoblox.createPortal({
-				App = e("ScreenGui",{ IgnoreGuiInset = true },{
-					playerList = e(PlayerList)
+				App = e("ScreenGui", { IgnoreGuiInset = true }, {
+					playerList = e(TabList),
 				}),
 			}, player.PlayerGui))
 		end
