@@ -35,20 +35,23 @@ function CreatePlayerList()
 
 	local root = ReactRoblox.createRoot(Instance.new("Folder"))
 
-	Keyboard.KeyDown:Connect(function(key)
-		if Enum.KeyCode.Tab == key and PreferredInput.current == "MouseKeyboard" then
+	local keyboard = Keyboard.new()
+
+	keyboard.KeyDown:Connect(function(key)
+		if Enum.KeyCode.Tab == key and PreferredInput.Current == "MouseKeyboard" then
+			print("TEst")
 			root:render(ReactRoblox.createPortal({
-				App = e("ScreenGui", { IgnoreGuiInset = true }, {
+				App = e("ScreenGui", { IgnoreGuiInset = true, DisplayOrder = 100 }, {
 					playerList = e(TabList),
 				}),
 			}, player.PlayerGui))
 		end
 	end)
 
-	Keyboard.KeyUp:Connect(function(key)
-		if Enum.KeyCode.Tab == key and PreferredInput.current == "MouseKeyboard" then
+	keyboard.KeyUp:Connect(function(key)
+		if Enum.KeyCode.Tab == key and PreferredInput.Current == "MouseKeyboard" then
 			--! mom im scared root wont exist when key up :(
-			root:unmount()
+			--root:unmount()
 		end
 	end)
 
