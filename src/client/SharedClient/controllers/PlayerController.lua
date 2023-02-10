@@ -51,7 +51,7 @@ function CreatePlayerList()
 	keyboard.KeyUp:Connect(function(key)
 		if Enum.KeyCode.Tab == key and PreferredInput.Current == "MouseKeyboard" then
 			--! mom im scared root wont exist when key up :(
-			--root:unmount()
+			root:unmount()
 		end
 	end)
 
