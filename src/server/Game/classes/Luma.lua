@@ -30,6 +30,7 @@ Luma.__tostring = function(current)
 			xp = current.xp,
 			ability = current.ability,
 			talent = current.talent,
+			uid = current.uid,
 		},
 	}
 
@@ -71,6 +72,10 @@ function Luma.new(name, options)
 
 		if options.talent then
 			self.talent = options.talent
+		end
+
+		if options.uid then
+			self.uid = options.uid
 		end
 
 		self.TableUtil.Assign(self, data)
