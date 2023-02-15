@@ -1,7 +1,19 @@
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+local EnumList = require(ReplicatedStorage.Packages.EnumList)
+
+local types = EnumList.new("Types", {
+	"fire",
+	"water",
+	"ground",
+	"earth",
+    "nature"
+})
+
 return {
 	flitten = {
 		name = "flitten",
-		type = "fire",
+		type = types.fire,
 		id = 1,
 		stats = {
             "health" = 100,
@@ -14,7 +26,7 @@ return {
 	},
     darkin = {
         name = "darkin",
-        type = "fire",
+        type = types.fire,
         id = 2,
         stats = {
             "health" = 100,
@@ -27,7 +39,7 @@ return {
     },
     junior = {
         name = "junior",
-        type = "fire",
+        type = types.fire,
         id = 3,
         stats = {
             "health" = 100,
