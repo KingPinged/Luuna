@@ -131,6 +131,8 @@ function useMove(Luma1, Luma2, move)
 			)
 		)
 	end
+
+	--TODO: check if there's a status effect
 end
 
 -- called before the turn start
@@ -151,8 +153,22 @@ function Battle.calculateTurn(luma1, luma2, move1, move2)
 		return 2
 	end
 
-	local luma1Speed = luma1.data.growthStats.speed + luma1.stats.speed
-	local luma2Speed = luma2.data.growthStats.speed + luma2.stats.speed
+	local luma1Speed = luma1.data.growthStats.speed
+		+ luma1.stats.speed
+			* TableUtil.Reduce(luma1.statuses, function(accum, status)
+				if status.speedModifier then
+					return accum + status.speedModifier
+				end
+				return accum
+			end)
+	local luma2Speed = luma2.data.growthStats.speed
+		+ luma2.stats.speed
+			* TableUtil.Reduce(luma2.statuses, function(accum, status)
+				if status.speedModifier then
+					return accum + status.speedModifier
+				end
+				return accum
+			end)
 
 	if luma1Speed > luma2Speed then
 		return 1

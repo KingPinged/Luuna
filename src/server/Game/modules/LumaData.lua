@@ -7,7 +7,10 @@ local types = EnumList.new("Types", {
 	"water",
 	"ground",
 	"earth",
-    "nature"
+    "nature",
+    "dark",
+    "dragon",
+    "electric"
 })
 
 return {
@@ -50,5 +53,44 @@ return {
             "rangedDefense" = 20
         },
     
+    },
+    bunbun = {
+        name = "bunbun"
+        type = types.water,
+        id = 4,
+        stats = {
+            "health" = 100,
+            "attack" = 30,
+            "speed" = 20,
+            "defense" = 30,
+            "rangedAttack" = 30,
+            "rangedDefense" = 20
+        },
+    },
+    shady = {
+        name = "shady",
+        type = types.nature,
+        id = 6,
+        stats = {
+            "health" = 100,
+            "attack" = 30,
+            "speed" = 20,
+            "defense" = 30,
+            "rangedAttack" = 30,
+            "rangedDefense" = 20
+        },
+    },
+    shilly = {
+        name = "shilly",
+        type = types.earth,
+        id = 7,
+        stats = {
+            "health" = 100,
+            "attack" = 30,
+            "speed" = 20,
+            "defense" = 30,
+            "rangedAttack" = 30,
+            "rangedDefense" = 20
+        },
     }
 }
