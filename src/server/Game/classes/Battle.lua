@@ -1,4 +1,5 @@
-
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local TabeleUtil = require(ReplicatedStorage.Packages.TableUtil)
 
 local Battle = {}
 Battle.__index = Battle
@@ -8,7 +9,6 @@ Battle.__index = Battle
 -- @param options an optional dictionary
 function Battle.new(team1, team2, options)
 	local self = setmetatable({}, Battle)
-
 
 	self.team1 = team1.team
 	self.team2 = team2.team
@@ -24,10 +24,113 @@ function Battle.new(team1, team2, options)
 
 	self.options = options
 
+	TabeleUtil.map(self.team1, function(luma)
+		TabeleUtil.Extend(luma, { statuses = {} })
+	end)
+
+	TabeleUtil.map(self.team2, function(luma)
+		TabeleUtil.Extend(luma, { statuses = {} })
+	end)
+
 	self.team1ActiveLuma = self.team1[1]
 	self.team2ActiveLuma = self.team2[1]
 
 	return self
+end
+
+--- @param move1 the move of team1 | a dict
+--- @param move2 the move of team2 | a dict
+function Battle:executeMoves(luma1, luma2, move1, move2)
+	if move1.type == "switch" then
+		--check if the switch is possible
+		if move1.switchTo then
+			if self.team1[move1.switchTo] and self.team1[move1.switchTo].health > 0 then
+				self.team1ActiveLuma = self.team1[move1.switchTo]
+			else
+				--TODO: error immediately. Either bug or hacker
+			end
+		else
+			-- TODO: error immediately. Either bug or hacker
+		end
+	elseif move1.type == "move" then
+	elseif move1.type == "run" then
+	elseif move1.type == "item" then
+	else
+		--TODO: invalid move type. Either bug or hacker
+	end
+
+	if move2.type == "switch" then
+	elseif move1.type == "move" then
+	elseif move1.type == "run" then
+	elseif move1.type == "item" then
+	else
+		--TODO: invalid move type. Either bug or hacker
+	end
+
+	local turn = self.calculateTurn(luma1, luma2, move1, move2)
+
+	-- I do not like this format of determing who goes first. Change in the future dumbass
+	if turn == 1 then
+		useMove(Luma1, Luma2, move1)
+		useMove(Luma2, Luma1, move2)
+	--its turn of second team
+	else
+		useMove(Luma2, Luma1, move2)
+		useMove(Luma1, Luma2, move1)
+	end
+end
+
+--! TODO: I HATE THIS SO MUCH. YOU FUCKING DUMBASS CHANGE THIS SHIT WHY IS IT SO REPETTIVE
+function useMove(Luma1, Luma2, move)
+	if move.attackType == "physical" then
+		--calculate defense and damage
+		local damage = (
+			(
+				((2 * Luma1.level / 5) + 2)
+				* move.power
+				* (luma1.data.growthStats.attack + luma1.stats.attack)
+				* TableUtil.Reduce(luma1.statuses, function(accum, status)
+					if status.attackModifier then
+						return accum + status.attackModifier
+					end
+					return accum
+				end)
+			)
+			/ (
+				(50 * (luma2.data.growthStats.defense + luma2.stats.defense))
+				* TableUtil.Reduce(luma2.statuses, function(accum, status)
+					if status.attackModifier then
+						return accum + status.attackModifier
+					end
+					return accum
+				end)
+			)
+		)
+	elseif move.attackType == "ranged" then
+		--calculate defense and damage
+		local damage = (
+			(
+				((2 * Luma1.level / 5) + 2)
+				* move.power
+				* (luma1.data.growthStats.rangedAttack + luma1.stats.rangedAttack)
+				* TableUtil.Reduce(luma1.statuses, function(accum, status)
+					if status.rangedAttackModifier then
+						return accum + status.rangedAttackModifier
+					end
+					return accum
+				end)
+			)
+			/ (
+				(50 * (luma2.data.growthStats.rangedDefense + luma2.stats.rangedDefense))
+				* TableUtil.Reduce(luma2.statuses, function(accum, status)
+					if status.rangedAttackModifier then
+						return accum + status.rangedAttackModifier
+					end
+					return accum
+				end)
+			)
+		)
+	end
 end
 
 -- called before the turn start
@@ -40,10 +143,9 @@ function afterTurnEnd() end
 -- luma1 is team1 , luma2 is team2
 --! I dont like this param format
 -- returns 1 or 2, 1 is team 1, 2 is team 2
-function battle.calculateTurn(luma1, luma2, move1, move2) 
-
+function Battle.calculateTurn(luma1, luma2, move1, move2)
 	--move priority is a level. Calculated before speed caluclations
-	if move1.priority  > move2.priority then
+	if move1.priority > move2.priority then
 		return 1
 	elseif move1.priority < move2.priority then
 		return 2
@@ -60,7 +162,6 @@ function battle.calculateTurn(luma1, luma2, move1, move2)
 		--they are equal. Randomized
 		return math.random(1, 2)
 	end
-end
 end
 
 function Battle:aiMove() end
