@@ -25,7 +25,7 @@ local levelList = EnumList.new("Level", {
 
 local logs = {} -- ALL logs are stored here
 
-function LogService:Log(player, message, level, origin, shouldWarn)
+function LogService:Log(player: Player, message: string, level : string, origin : string, shouldWarn : boolean))
 	if not levelList.BelongsTo(level) then
 		return
 	end
