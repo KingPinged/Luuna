@@ -39,7 +39,7 @@ end
 
 -- @param name The name of the Luma to search and create for
 -- @param options A dictionary of options to pass to the Luma
-function Luma.new(name, options)
+function Luma.new(name: string, options)
 	local self = setmetatable({}, Luma)
 
 	local data = LumaData[name]
