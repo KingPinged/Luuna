@@ -11,7 +11,7 @@ local e = React.createElement
 
 --TODO: allow list to dynamically update based on player join and leave
 function PlayerTrail(props)
-	local length = #props.players
+	local length: number = #props.players
 
 	local springProps = {}
 	for index, item in ipairs(props.players) do
@@ -22,10 +22,10 @@ function PlayerTrail(props)
 		})
 	end
 
-	local springs = ReactSpring.useTrail(length, springProps)
+	local springs: boolean = ReactSpring.useTrail(length, springProps)
 
 	local contents = {}
-	for i, v in ipairs(props.players) do
+	for i: number, v in ipairs(props.players) do
 		contents[i] = e("TextLabel", {
 			TextTransparency = springs[i].transparency,
 			Text = `•{v.Name}`,
