@@ -18,7 +18,7 @@ return {
 		name = "flitten",
 		type = types.fire,
 		id = 1,
-		stats = {
+		baesStats = {
             "health" = 100,
             "attack" = 30,
             "speed" = 20,
@@ -31,7 +31,7 @@ return {
         name = "darkin",
         type = types.fire,
         id = 2,
-        stats = {
+        baesStats = {
             "health" = 100,
             "attack" = 30,
             "speed" = 20,
@@ -44,7 +44,7 @@ return {
         name = "junior",
         type = types.fire,
         id = 3,
-        stats = {
+        baesStats = {
             "health" = 100,
             "attack" = 30,
             "speed" = 20,
@@ -58,7 +58,7 @@ return {
         name = "bunbun"
         type = types.water,
         id = 4,
-        stats = {
+        baesStats = {
             "health" = 100,
             "attack" = 30,
             "speed" = 20,
@@ -71,7 +71,7 @@ return {
         name = "shady",
         type = types.nature,
         id = 6,
-        stats = {
+        baesStats = {
             "health" = 100,
             "attack" = 30,
             "speed" = 20,
@@ -84,7 +84,7 @@ return {
         name = "shilly",
         type = types.earth,
         id = 7,
-        stats = {
+        baesStats = {
             "health" = 100,
             "attack" = 30,
             "speed" = 20,
