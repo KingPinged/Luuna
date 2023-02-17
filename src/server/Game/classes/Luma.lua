@@ -3,7 +3,7 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local LumaData = require(script.Parent.Parent.modules["LumaData"])
 
---TODO: add Sleigtnicks Table Util library
+--TODO: add Sleitnick Table Util library
 
 local ReplicatedStorage = require("ReplicatedStorage")
 local TableUtil = require(ReplicatedStorage.Packages.TableUtil)
@@ -26,6 +26,7 @@ Luma.__tostring = function(current)
 		data = {
 			owner = current.owner,
 			growthStats = current.growthStats,
+			birthStats =  current.birthStats,
 			level = current.level,
 			xp = current.xp,
 			ability = current.ability,
@@ -37,8 +38,8 @@ Luma.__tostring = function(current)
 	return HttpService:JSONEncode(tableToEncode)
 end
 
--- @param name The name of the Luma to search and create for
--- @param options A dictionary of options to pass to the Luma
+--- @param name The name of the Luma to search and create for
+--- @param options A dictionary of options to pass to the Luma
 function Luma.new(name: string, options)
 	local self = setmetatable({}, Luma)
 
@@ -56,6 +57,19 @@ function Luma.new(name: string, options)
 
 		if options.growthStats then
 			self.growthStats = options.growthStats
+		end
+
+		if options.birthStats then
+			self.birthStats = options.birthStats
+		else
+			self.birthStats = {
+				"health" = math.random(0,31),
+				"attack" = math.random(0,31),
+				"speed" = math.random(0,31),
+				"defense" = math.random(0,31),
+				"rangedAttack" = math.random(0,31),
+				"rangedDefense" = math.random(0,31)
+			}
 		end
 
 		if options.level then
@@ -82,6 +96,12 @@ function Luma.new(name: string, options)
 	else
 		error(`Luma Data not found for id: {self.uid}`)
 	end
+
+	--HP calculation
+	local maxHp = (((2*self.baseStats.health + self.birthStats.health  + (self.growthStats.health /4)) * self.level) /100 )+ self.level +10
+
+	self.maxHp = maxHp
+	self.hp = self.maxHp
 
 	return self
 end

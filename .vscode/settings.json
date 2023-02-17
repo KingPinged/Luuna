@@ -6,5 +6,8 @@
   "luau-lsp.sourcemap.rojoProjectFile": "lobby.project.json",
   "cSpell.words": [
     "luma"
+  ],
+  "cSpell.ignoreWords": [
+    "accum"
   ]
 }
