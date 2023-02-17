@@ -1,12 +1,12 @@
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local TabeleUtil = require(ReplicatedStorage.Packages.TableUtil)
+local TableUtil = require(ReplicatedStorage.Packages.TableUtil)
 
 local Battle = {}
 Battle.__index = Battle
 
--- @param team1 an dictionary @param team | a dict with instances of Luma class
--- @param team2 an dictionary @param team | a dict with instances of Luma class
--- @param options an optional dictionary
+--- @param team1 an dictionary @param team | a dict with instances of Luma class
+--- @param team2 an dictionary @param team | a dict with instances of Luma class
+--- @param options an optional dictionary
 function Battle.new(team1, team2, options)
 	local self = setmetatable({}, Battle)
 
@@ -15,21 +15,21 @@ function Battle.new(team1, team2, options)
 
 	self.players = {}
 	if team1.player then
-		table.insert(players, team1.player)
+		table.insert(self.players, team1.player)
 	end
 
 	if team2.player then
-		table.insert(players, team2.player)
+		table.insert(self.players, team2.player)
 	end
 
 	self.options = options
 
-	TabeleUtil.map(self.team1, function(luma)
-		TabeleUtil.Extend(luma, { statuses = {} })
+	TableUtil.Map(self.team1, function(luma)
+		TableUtil.Extend(luma, { statuses = {} })
 	end)
 
-	TabeleUtil.map(self.team2, function(luma)
-		TabeleUtil.Extend(luma, { statuses = {} })
+	TableUtil.Map(self.team2, function(luma)
+		TableUtil.Extend(luma, { statuses = {} })
 	end)
 
 	self.team1ActiveLuma = self.team1[1]
@@ -69,7 +69,7 @@ function Battle:executeMoves(luma1, luma2, move1, move2)
 
 	local turn = self.calculateTurn(luma1, luma2, move1, move2)
 
-	-- I do not like this format of determing who goes first. Change in the future dumbass
+	-- I do not like this format of determining who goes first. Change in the future dumbass
 	if turn == 1 then
 		useMove(Luma1, Luma2, move1)
 		useMove(Luma2, Luma1, move2)
@@ -80,7 +80,7 @@ function Battle:executeMoves(luma1, luma2, move1, move2)
 	end
 end
 
---! TODO: I HATE THIS SO MUCH. YOU FUCKING DUMBASS CHANGE THIS SHIT WHY IS IT SO REPETTIVE
+--! TODO: I HATE THIS SO MUCH. YOU FUCKING DUMBASS CHANGE THIS SHIT WHY IS IT SO REPETITIVE
 function useMove(Luma1, Luma2, move)
 	if move.attackType == "physical" then
 		--calculate defense and damage
