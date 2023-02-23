@@ -5,7 +5,7 @@ local LumaData = require(script.Parent.Parent.modules["LumaData"])
 
 --TODO: add Sleitnick Table Util library
 
-local ReplicatedStorage = require("ReplicatedStorage")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local TableUtil = require(ReplicatedStorage.Packages.TableUtil)
 
 local Luma = {}
@@ -26,7 +26,7 @@ Luma.__tostring = function(current)
 		data = {
 			owner = current.owner,
 			growthStats = current.growthStats,
-			birthStats =  current.birthStats,
+			birthStats = current.birthStats,
 			level = current.level,
 			xp = current.xp,
 			ability = current.ability,
@@ -63,12 +63,12 @@ function Luma.new(name: string, options)
 			self.birthStats = options.birthStats
 		else
 			self.birthStats = {
-				"health" = math.random(0,31),
-				"attack" = math.random(0,31),
-				"speed" = math.random(0,31),
-				"defense" = math.random(0,31),
-				"rangedAttack" = math.random(0,31),
-				"rangedDefense" = math.random(0,31)
+				health = math.random(0, 31),
+				attack = math.random(0, 31),
+				speed = math.random(0, 31),
+				defense = math.random(0, 31),
+				rangedAttack = math.random(0, 31),
+				rangedDefense = math.random(0, 31),
 			}
 		end
 
@@ -98,7 +98,11 @@ function Luma.new(name: string, options)
 	end
 
 	--HP calculation
-	local maxHp = (((2*self.baseStats.health + self.birthStats.health  + (self.growthStats.health /4)) * self.level) /100 )+ self.level +10
+	local maxHp = (
+		((2 * self.baseStats.health + self.birthStats.health + (self.growthStats.health / 4)) * self.level) / 100
+	)
+		+ self.level
+		+ 10
 
 	self.maxHp = maxHp
 	self.hp = self.maxHp
