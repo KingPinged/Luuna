@@ -38,6 +38,13 @@ function Battle.new(team1, team2, options)
 	return self
 end
 
+
+---@param eventid the id of the event
+function Battle:runEvent(eventid, )
+	--Get all handlers for the event and call them 
+	local handlers = {}
+end
+
 --- @param move1 the move of team1 | a dict
 --- @param move2 the move of team2 | a dict
 function Battle:executeMoves(luma1, luma2, move1, move2)
