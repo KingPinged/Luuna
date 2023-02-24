@@ -42,7 +42,7 @@ end
 ---@param eventid the id of the event
 function Battle:runEvent(eventid, )
 	--Get all handlers for the event and call them 
-	local handlers = {}
+	local handlers = { }
 end
 
 --- @param move1 the move of team1 | a dict
