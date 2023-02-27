@@ -6,6 +6,6 @@ function BattleActions.new()
 	return self
 end
 
-function BattleActions:Destroy() end
+function BattleActions:Destroy(): () end
 
 return BattleActions
