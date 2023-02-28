@@ -1,4 +1,8 @@
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local ServerScriptService = game:GetService("ServerScriptService")
+
+local BattleActions = require(ServerScriptService.Game.classes.BattleActions)
+
 local TableUtil = require(ReplicatedStorage.Packages.TableUtil)
 
 local Battle = {}
@@ -12,6 +16,8 @@ function Battle.new(team1, team2, options)
 
 	self.team1 = team1.team
 	self.team2 = team2.team
+
+	self.battleActions = BattleActions.new(self)
 
 	self.players = {}
 	if team1.player then
