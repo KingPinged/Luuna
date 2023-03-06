@@ -1,9 +1,9 @@
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local ServerScriptService = game:GetService("ServerScriptService")
 
-local BattleActions = require(ServerScriptService.Game.classes.BattleActions)
+local BattleActions = require(script.Parent.BattleActions)
 
 local TableUtil = require(ReplicatedStorage.Packages.TableUtil)
+local ClassUtil = require(ReplicatedStorage.tools.classUtil)
 
 local Battle = {}
 Battle.__index = Battle
@@ -45,10 +45,34 @@ function Battle.new(team1, team2, options)
 end
 
 ---@param eventid the id of the event
-function Battle:runEvent(eventid)
+function Battle:runEvent(eventId, target, source)
 	--Get all handlers for the event and call them
-	local handlers = {}
+	local handlers = self:findEventHandlers(eventId, target, source)
+
+	for _, handler in pairs(handlers) do
+		handler.callback(self, target, source)
+	end
 end
+---@param eventId the id of the event
+---@param target the target of the event
+---@param source the source of the event
+
+function Battle:findEventHandlers(eventId, target, source)
+	local handlers = {}
+
+	--of luma class
+	if ClassUtil:instanceOf(target, "Luma") then
+		local ability = target.getAbility()
+
+		local callback = ability[eventId]
+		if callback ~= nil then
+			table.insert(handlers, { callback = callback, type = "ability" })
+		end
+	end
+
+	return handlers
+end
+--TODO: check if the moves are valid
 
 --- @param move1 the move of team1 | a dict
 --- @param move2 the move of team2 | a dict
@@ -72,7 +96,7 @@ function Battle:executeMoves(luma1, luma2, move1, move2)
 	end
 
 	if move2.type == "switch" then
-	elseif move1.type == "move" then
+	elseif move2.type == "move" then
 	elseif move1.type == "run" then
 	elseif move1.type == "item" then
 	else
