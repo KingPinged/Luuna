@@ -11,4 +11,5 @@ return {
 		settings = {},
 	},
 	saveTemplate = {},
+	maxTeamSize = 6, -- could change in the future who knows
 }
