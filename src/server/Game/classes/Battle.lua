@@ -1,9 +1,10 @@
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local ServerScriptService = game:GetService("ServerScriptService")
 
-local BattleActions = require(ServerScriptService.Game.classes.BattleActions)
+local BattleActions = require(script.Parent.BattleActions)
 
 local TableUtil = require(ReplicatedStorage.Packages.TableUtil)
+local ClassUtil = require(ReplicatedStorage.tools.classUtil)
 
 local Battle = {}
 Battle.__index = Battle
@@ -45,9 +46,29 @@ function Battle.new(team1, team2, options)
 end
 
 ---@param eventid the id of the event
-function Battle:runEvent(eventid)
+function Battle:runEvent(eventId, target, source)
 	--Get all handlers for the event and call them
+	local handlers = self:findEventHandlers(eventId, target, source)
+
+	for _, handler in pairs(handlers) do
+		handler.callback(self, target, source)
+	end
+end
+
+function Battle:findEventHandlers(eventId, target, source)
 	local handlers = {}
+
+	--of luma class
+	if ClassUtil:instanceOf(target, "Luma") then
+		local ability = target.getAbility()
+
+		local callback = ability[eventId]
+		if callback ~= nil then
+			table.insert(handlers, { callback = callback, type = "ability" })
+		end
+	end
+
+	return handlers
 end
 
 --- @param move1 the move of team1 | a dict
