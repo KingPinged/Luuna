@@ -1,2 +1,133 @@
-- name: StyLua
-  uses: JohnnyMorganz/stylua-action@v2.0.0
+## Welcome to boatbomber's publish workflow.
+
+# You'll need a few things in your GitHub Action secrets for this to work:
+# - ROBLOSECURITY : A cookie of a Roblox account (used to install Studio for testing)
+# - RBXID         : Another cookie from the account (also used in Studio install)
+# - PUBLISHCLOUD  : A Roblox OpenCloud API key with Write permission in Place Management for your game
+
+# This workflow assumes that you have:
+# - A `aftman.toml` with rojo, wally, selene, darklua, and run-in-roblox
+# - A `default.project.json` that builds a place file
+# - A `tests.project.json` that builds a place file
+# - A `tests/TestRunner.lua` that runs your tests
+
+# You'll also need to set the env variables below to your correct IDs for place/universe, of course.
+
+name: Publish
+
+env:
+  TESTING_UNIVERSE: '4353729879'
+  TESTING_PLACE: '12370590123'
+  PRODUCTION_UNIVERSE: '4353729879'
+  PRODUCTION_PLACE: '12370590123'
+
+on:
+  workflow_dispatch:
+    inputs:
+      place:
+        description: 'Pick where to publish to'
+        required: true
+        type: choice
+        default: 'Testing'
+        options:
+        - Testing
+        - Production
+      requireTest:
+        description: 'Require passing tests before publishing'
+        required: false
+        type: boolean
+        default: false
+      shouldProcess:
+        description: 'Process and minify source code before publishing'
+        required: false
+        type: boolean
+        default: true
+
+jobs:
+  Deployment:
+    runs-on: windows-latest
+
+    steps:
+      # Logging
+      - name: Log chosen inputs
+        shell: bash
+        run: |
+          echo "Publish Target: ${{ github.event.inputs.place }}"
+          echo "Require Tests Passing: ${{ github.event.inputs.requireTest }}"
+          echo "Process Source Code: ${{ github.event.inputs.shouldProcess }}"
+      # Dependencies
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Check for cookies and keys
+        shell: bash
+        run: |
+          if [ -z "${{ secrets.ROBLOSECURITY }}" ]; then echo 'Missing ROBLOSECURITY secret!'; exit 1; else echo 'Found ROBLOSECURITY secret...'; fi
+          if [ -z "${{ secrets.RBXID }}" ]; then echo 'Missing RBXID secret!'; exit 1; else echo 'Found RBXID secret...'; fi
+          if [ -z "${{ secrets.PUBLISHCLOUD }}" ]; then echo 'Missing PUBLISHCLOUD secret!'; exit 1; else echo 'Found PUBLISHCLOUD secret...'; fi
+      - name: Aftman installation
+        uses: ok-nick/setup-aftman@v0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          version: 'v0.2.7'
+
+      - name: Package installation
+        shell: bash
+        run: wally install
+
+      # Testing
+      - name: Setup Studio cookies
+        if: github.event.inputs.requireTest == 'true'
+        run: REG ADD HKCU\Software\RobloxStudioBrowser\roblox.com /t REG_SZ /v .RBXID /d "${{ secrets.RBXID }}"
+
+      - name: Studio installation
+        if: github.event.inputs.requireTest == 'true'
+        uses: OrbitalOwen/roblox-win-installer-action@1.1
+        with:
+          cookie: ${{ secrets.ROBLOSECURITY }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run tests
+        if: github.event.inputs.requireTest == 'true'
+        shell: bash
+        run: |
+          echo 'Running linter...'
+          selene --config selene.toml src/client src/server src/first src/shared/Util src/shared/Data
+          echo 'Running tests...'
+          rojo build tests.project.json -o ./tests/test.rbxl
+          run-in-roblox --place ./tests/test.rbxl --script ./tests/TestRunner.lua
+      # Source code processing
+      - name: Process & minify source code
+        if: github.event.inputs.shouldProcess == 'true'
+        continue-on-error: true
+        shell: bash
+        run: |
+          echo 'Removing story files...'
+          find . -name '*.story.lua' -delete
+          echo 'Removing test files...'
+          find . -name '*.spec.lua' -delete
+          echo 'Processing & minifying source code...'
+          darklua process src src --format retain-lines
+          darklua process Packages Packages --format retain-lines
+          darklua process ServerPackages ServerPackages --format retain-lines
+      # Deployment
+      - name: Build the project
+        shell: bash
+        run: rojo build default.project.json -o build.rbxl
+
+      - name: Upload the build as an action artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: Project Build
+          path: build.rbxl
+
+      - name: Publish to Roblox
+        shell: bash
+        run: |
+          if [ ${{ github.event.inputs.place }} == 'Production' ]; then universeId=$PRODUCTION_UNIVERSE; else universeId=$TESTING_UNIVERSE; fi
+          if [ ${{ github.event.inputs.place }} == 'Production' ]; then placeId=$PRODUCTION_PLACE; else placeId=$TESTING_PLACE; fi
+          echo "Publishing to $universeId/$placeId"
+          curl --verbose --fail-with-body --location --request POST "https://apis.roblox.com/universes/v1/$universeId/places/$placeId/versions?versionType=Published" \
+          --header "x-api-key: ${{ secrets.PUBLISHCLOUD }}" \
+          --header 'Content-Type: application/octet-stream' \
+          --data-binary @build.rbxl
