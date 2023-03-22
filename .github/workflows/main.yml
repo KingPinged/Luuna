@@ -2,7 +2,6 @@
 
 # You'll need a few things in your GitHub Action secrets for this to work:
 # - ROBLOSECURITY : A cookie of a Roblox account (used to install Studio for testing)
-# - RBXID         : Another cookie from the account (also used in Studio install)
 # - PUBLISHCLOUD  : A Roblox OpenCloud API key with Write permission in Place Management for your game
 
 # This workflow assumes that you have:
@@ -63,7 +62,6 @@ jobs:
         shell: bash
         run: |
           if [ -z "${{ secrets.ROBLOSECURITY }}" ]; then echo 'Missing ROBLOSECURITY secret!'; exit 1; else echo 'Found ROBLOSECURITY secret...'; fi
-          if [ -z "${{ secrets.RBXID }}" ]; then echo 'Missing RBXID secret!'; exit 1; else echo 'Found RBXID secret...'; fi
           if [ -z "${{ secrets.PUBLISHCLOUD }}" ]; then echo 'Missing PUBLISHCLOUD secret!'; exit 1; else echo 'Found PUBLISHCLOUD secret...'; fi
       - name: Aftman installation
         uses: ok-nick/setup-aftman@v0
@@ -76,9 +74,6 @@ jobs:
         run: wally install
 
       # Testing
-      - name: Setup Studio cookies
-        if: github.event.inputs.requireTest == 'true'
-        run: REG ADD HKCU\Software\RobloxStudioBrowser\roblox.com /t REG_SZ /v .RBXID /d "${{ secrets.RBXID }}"
 
       - name: Studio installation
         if: github.event.inputs.requireTest == 'true'
