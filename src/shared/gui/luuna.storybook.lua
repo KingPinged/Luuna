@@ -7,6 +7,6 @@ return {
 	react = React,
 	reactRoblox = ReactRoblox,
 	storyRoots = {
-		ReplicatedStorage.gui.components,
+		ReplicatedStorage.gui.stories,
 	},
 }

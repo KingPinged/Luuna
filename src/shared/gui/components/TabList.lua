@@ -22,7 +22,7 @@ function PlayerTrail(props)
 		})
 	end
 
-	local springs: boolean = ReactSpring.useTrail(length, springProps)
+	local springs = ReactSpring.useTrail(length, springProps)
 
 	local contents = {}
 	for i: number, v in ipairs(props.players) do

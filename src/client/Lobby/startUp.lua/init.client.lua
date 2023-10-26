@@ -42,4 +42,4 @@ function start(player)
 	}, player.PlayerGui))
 end
 
-start(game.Players.LocalPlayer)
+return start

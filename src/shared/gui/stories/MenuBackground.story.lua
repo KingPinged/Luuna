@@ -5,14 +5,14 @@ local ReactRoblox = require(ReplicatedStorage.Packages.ReactRoblox)
 
 local e = Roact.createElement
 
-local BackgroundComponent = require(script.Parent.LoadingBackground)
+local BackgroundComponent = require(script.Parent.Parent.components.MenuBackground)
 
 local controls = {
 	duration = 30,
 }
 
 return {
-	summary = "The backgound that appears in game loading and teleport screen",
+	summary = "The backgound that appears in game start",
 	react = Roact,
 	controls = controls,
 	reactRoblox = ReactRoblox,

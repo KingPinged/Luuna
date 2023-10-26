@@ -18,7 +18,7 @@ return function(props)
 		}
 	end)
 
-	--todo flawed rotation
+	--TODO: flawed rotation
 	local sizeStyle = RoactSpring.useSpring({
 		size = if finishedPosition then UDim2.fromScale(0.55, 0.45) else UDim2.fromScale(0.5, 0.4),
 		loop = true,

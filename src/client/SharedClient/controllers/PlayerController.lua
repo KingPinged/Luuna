@@ -39,6 +39,7 @@ function removeCoreGui()
 	game.StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Health, false)
 end
 
+--
 function CreatePlayerList()
 	--? does PrefferedInput work automatically sync as state?
 	--local connection = PreferredInput.Observe(function(preferred) end)
@@ -52,7 +53,7 @@ function CreatePlayerList()
 			print("TEst")
 			root:render(ReactRoblox.createPortal({
 				App = e("ScreenGui", { IgnoreGuiInset = true, DisplayOrder = 100 }, {
-					playerList = e(TabList),
+					playerList = e(TabList, { players = Players:GetPlayers(), info = {} }),
 				}),
 			}, player.PlayerGui))
 		end

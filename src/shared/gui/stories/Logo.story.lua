@@ -5,20 +5,15 @@ local ReactRoblox = require(ReplicatedStorage.Packages.ReactRoblox)
 
 local e = Roact.createElement
 
-local BackgroundComponent = require(script.Parent.MenuBackground)
+local Logo = require(script.Parent.Parent.components.Logo)
 
-local controls = {
-	duration = 30,
-}
+local controls = {}
 
 return {
-	summary = "The backgound that appears in game start",
+	summary = "the logo that appears in game start ",
 	react = Roact,
-	controls = controls,
 	reactRoblox = ReactRoblox,
-	story = function(props)
-		return e(BackgroundComponent, {
-			duration = props.controls.duration,
-		})
+	story = function()
+		return e(Logo)
 	end,
 }

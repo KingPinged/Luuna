@@ -5,11 +5,11 @@ local ReactRoblox = require(ReplicatedStorage.Packages.ReactRoblox)
 
 local e = Roact.createElement
 
-local TabList = require(script.Parent.TabList)
+local MenuButtons = require(script.Parent.Parent.components.MenuButtons)
 
 return {
-	summary = "The gui that appears on tab press",
+	summary = "the buttons that appear in game start",
 	react = Roact,
 	reactRoblox = ReactRoblox,
-	story = e(TabList),
+	story = e(MenuButtons, { logoFinish = true }),
 }
