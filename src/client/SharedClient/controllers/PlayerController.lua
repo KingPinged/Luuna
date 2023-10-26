@@ -1,3 +1,13 @@
+--[[
+Functionality:
+	- removes core guis ( backpack, emotes, health, playerlist, etc., bound to change)
+	- Creates player list ( custom ) with TAB key hold
+
+TODO:
+
+]]
+--
+
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Players = game:GetService("Players")
 

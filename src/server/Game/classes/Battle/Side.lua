@@ -237,12 +237,14 @@ function BattleSide:AIChooseMove(request)
 									local defBoosts = moveData.useSourceDefensive and pokemon.boosts[defenseStat]
 										or target.boosts[defenseStat]
 									if
-										moveData.ignoreOffensive or (moveData.ignoreNegativeOffensive and atkBoosts < 0)
+										moveData.ignoreOffensive
+										or (moveData.ignoreNegativeOffensive and atkBoosts < 0)
 									then
 										atkBoosts = 0
 									end
 									if
-										moveData.ignoreDefensive or (moveData.ignorePositiveDefensive and defBoosts > 0)
+										moveData.ignoreDefensive
+										or (moveData.ignorePositiveDefensive and defBoosts > 0)
 									then
 										defBoosts = 0
 									end

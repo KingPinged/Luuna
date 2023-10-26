@@ -1,3 +1,13 @@
+--[[
+Functionality:
+	- Creates 3 buttons on MENU
+
+TODO:
+	- Link button to separate activation functions
+	-- align buttons center Y
+]]
+--
+
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local UserInputService = game:GetService("UserInputService")
 
@@ -7,6 +17,8 @@ local RoactSpring = require(ReplicatedStorage.Packages.RoactSpring)
 local Scaler = require(ReplicatedStorage.gui.scaler)
 
 local e = React.createElement
+
+local GUI_Y = 0.3
 
 local buttonProps = {
 	{
@@ -33,10 +45,12 @@ local buttonProps = {
 }
 
 return function(props)
-	local finishedSlideIn, setFinishedSlideIn = React.useState(false)
+	--local finishedSlideIn, setFinishedSlideIn = React.useState(false)
+	--local lastButton = React.useRef(nil)
 
 	local springs, api = RoactSpring.useTrail(#buttonProps, function(i)
 		return {
+			--i * 0.25 is EXACTLY next to it (0.25 is the height of the button?)
 			position = UDim2.fromScale(-0.2, 0.05 + i * 0.25),
 			transparency = 1,
 			config = { damping = 1, frequency = 0.3, mass = 1, tension = 810, friction = 20 },
@@ -50,11 +64,11 @@ return function(props)
 
 		api.start(function(i)
 			return {
-				position = UDim2.fromScale(0, 0.05 + i * 0.25),
+				position = UDim2.fromScale(0, 0.05 + i * GUI_Y),
 				transparency = 0,
 			}
 		end):andThen(function()
-			setFinishedSlideIn(true)
+			--setFinishedSlideIn(true)
 		end)
 
 		--setToggle(true)
@@ -71,34 +85,37 @@ return function(props)
 			Size = UDim2.fromScale(1, 0.25),
 			BackgroundColor3 = Color3.fromRGB(255, 255, 255),
 			AutoButtonColor = false,
-			[React.Event.Activated] = function()
-				print("Button clicked")
-			end,
-			[React.Event.InputBegan] = function(_)
-				if finishedSlideIn then
-					api.start(function(i)
-						if i == index then
-							return {
-								position = UDim2.fromScale(0.2, 0.05 + i * 0.25),
-								ZIndex = 10,
-							}
-						end
+			[React.Event.Activated] = function() end,
+			[React.Event.MouseEnter] = function(_)
+				--lastButton.current = index
+
+				--if finishedSlideIn then
+				api.start(function(i)
+					if i == index then
 						return {
-							position = UDim2.fromScale(0.0, 0.05 + i * 0.25),
+							position = UDim2.fromScale(0.2, 0.05 + i * GUI_Y),
 							ZIndex = 10,
 						}
-					end)
-				end
+					end
+					return {
+						position = UDim2.fromScale(0.0, 0.05 + i * GUI_Y),
+						ZIndex = 10,
+					}
+				end)
+				--end
 			end,
-			[React.Event.InputEnded] = function(_)
-				if finishedSlideIn then
-					api.start(function(i)
+			[React.Event.MouseLeave] = function(_)
+				--if finishedSlideIn then
+				api.start(function(i)
+					if i == index then
 						return {
-							position = UDim2.fromScale(0, 0.05 + i * 0.25),
+							position = UDim2.fromScale(0, 0.05 + i * GUI_Y),
 							ZIndex = 10,
 						}
-					end)
-				end
+					end
+					return nil
+				end)
+				--end
 			end,
 		}, {
 			Scaler = e(Scaler, { Size = Vector2.new(150, 150), Scale = 0.2 }),

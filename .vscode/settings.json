@@ -9,5 +9,6 @@
   ],
   "cSpell.ignoreWords": [
     "accum"
-  ]
+  ],
+  "rojoViewer.sourcemap.rojoProjectFile": "game.project.json"
 }

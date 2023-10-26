@@ -10,7 +10,7 @@ local RoactSpring = require(ReplicatedStorage.Packages.RoactSpring)
 
 local e = Roact.createElement
 
-local Background = require(script.components.Background)
+local Background = require(script.components.MenuBackground)
 local menuButtons = require(script.components.MenuButtons)
 local Logo = require(script.components.Logo)
 

@@ -1,3 +1,16 @@
+--[[
+Functionality:
+	This startup is separate from knit starer.
+	- Creates the main menu
+	- Creates the background
+	- Creates the logo
+	- Creates the menu buttons
+TODO:
+	change to modulescript ->
+		make reference by starter.client.lua
+]]
+--
+
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")

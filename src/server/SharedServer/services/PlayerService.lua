@@ -35,6 +35,12 @@ function PlayerService:KnitStart()
 
 	Players.PlayerAdded:Connect(function(player)
 		AddPlayer(player)
+
+		--TODO: remove when game ready for public
+		--!if player is not owner kick
+		if player.UserId == game.CreatorId then
+			player:Kick("You are not allowed to play this game.")
+		end
 	end)
 
 	for _, player in pairs(Players:GetPlayers()) do

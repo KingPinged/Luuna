@@ -1,3 +1,12 @@
+--[[
+Functionality:
+	-Creates logging to output of analytics, errors, and warnings
+	- Logs events to GameAnalytics
+TODO:
+
+]]
+--
+
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local Knit = require(ReplicatedStorage.Packages.Knit)
