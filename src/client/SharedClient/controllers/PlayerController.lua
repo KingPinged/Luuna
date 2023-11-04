@@ -2,7 +2,7 @@
 Functionality:
 	- removes core guis ( backpack, emotes, health, playerlist, etc., bound to change)
 	- Creates player list ( custom ) with TAB key hold
-
+	- handles player data of EACH from this client's side
 TODO:
 
 ]]
@@ -27,19 +27,31 @@ local TabList = require(ReplicatedStorage.gui.components.TabList)
 
 local player = game.Players.LocalPlayer
 
-function PlayerAdded(player) end
+local playerList = {}
 
-function RemovePlayer(player) end
+function PlayerAdded(player)
+	--player already exists
+	if playerList[player] then
+		return
+	end
 
+	playerList[player] = {}
+	--TODO: get specific data from server about player
+end
+
+function RemovePlayer(player)
+	playerList[player] = nil
+end
+
+--remove some guis that are not needed at all
 function removeCoreGui()
-	--remove some guis that are not needed at all
 	game.StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.PlayerList, false)
 	game.StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.EmotesMenu, false)
 	game.StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Backpack, false)
 	game.StarterGui:SetCoreGuiEnabled(Enum.CoreGuiType.Health, false)
 end
 
---
+-- create player list GUI
 function CreatePlayerList()
 	--? does PrefferedInput work automatically sync as state?
 	--local connection = PreferredInput.Observe(function(preferred) end)
@@ -69,9 +81,11 @@ function CreatePlayerList()
 	--//connection:Disconnect()
 end
 
+--when this script is run
 function PlayerController:KnitStart()
 	removeCoreGui()
 	CreatePlayerList()
+
 	Players.PlayerAdded:Connect(function(player)
 		print("player now addded")
 		PlayerAdded(player)
@@ -85,5 +99,7 @@ function PlayerController:KnitStart()
 		RemovePlayer(player)
 	end)
 end
+
+
 
 return PlayerController

@@ -20,7 +20,7 @@ function TeleportService:TeleportPlayer(player)
 	Promise.retry(
 		Promise.new(function(resolve, reject)
 			local success, result = pcall(function()
-				return RobloxTeleportService:TeleportAsync(config.gamePLaceId, { player })
+				return RobloxTeleportService:TeleportAsync(config.gamePlaceId, { player })
 			end)
 
 			if not success then

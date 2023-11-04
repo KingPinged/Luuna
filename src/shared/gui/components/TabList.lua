@@ -10,6 +10,7 @@ local e = React.createElement
 --The tablist will have the following groups: Players, Info
 
 --TODO: allow list to dynamically update based on player join and leave
+--TODO: this todo will be passed by props, thus, we handle data in playerController
 function PlayerTrail(props)
 	local length: number = #props.players
 
