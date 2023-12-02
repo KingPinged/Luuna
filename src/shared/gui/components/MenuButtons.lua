@@ -85,6 +85,7 @@ return function(props)
 			Size = UDim2.fromScale(1, 0.25),
 			BackgroundColor3 = Color3.fromRGB(255, 255, 255),
 			AutoButtonColor = false,
+		
 			[React.Event.Activated] = function() end,
 			[React.Event.MouseEnter] = function(_)
 				--lastButton.current = index

@@ -37,6 +37,8 @@ function PlayerAdded(player)
 
 	playerList[player] = {}
 	--TODO: get specific data from server about player
+
+	
 end
 
 function RemovePlayer(player)
