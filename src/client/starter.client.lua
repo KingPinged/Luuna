@@ -11,7 +11,8 @@ if game.PlaceId == config.lobbyPlaceId then
 
 	--if on server, this file will not exist.
 
-	local startUp = require(script.Parent.Lobby.startUp)
+	local startUp = require(script.Parent.Lobby.startUp) :: any
+
 	startUp(game.Players.LocalPlayer)
 elseif game.PlaceId == config.gamePlaceId then
 	Knit.AddControllers(script.parent.Game.controllers)
