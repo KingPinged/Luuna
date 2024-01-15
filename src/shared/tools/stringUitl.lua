@@ -12,7 +12,7 @@ function t:concat(tbl, str)
 	local t = {}
 	for i, v in pairs(tbl) do
 		if type(v) == "table" then
-			t[i] = concat(v, str)
+			t[i] = self.concat(v, str)
 		elseif type(v) == "userdata" then
 			t[i] = "userdata"
 		elseif v == nil then

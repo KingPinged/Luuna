@@ -1,0 +1,25 @@
+{
+    "rules": [
+        {
+            "rule": "convert_require",
+            "current": {
+                "name": "path",
+                "sources": {
+                    "@gClient": "./src/client/Game",
+                    "@lClient": "./src/client/Lobby",
+                    "@sClient": "./src/client/SharedClient",
+                    "@packages": "./Packages",
+                    "@gServer": "./src/server/Game",
+                    "@lServer": "./src/server/Lobby",
+                    "@sServer": "./src/server/SharedServer",
+                    "@shared": "./src/shared",
+                    "@server-packages": "./ServerPackages"
+                }
+            },
+            "target": {
+                "name": "roblox",
+                "rojo_sourcemap": "./sourcemap.json"
+            }
+        }
+    ]
+}

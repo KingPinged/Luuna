@@ -12,4 +12,8 @@ return {
 	},
 	saveTemplate = {},
 	maxTeamSize = 6, -- could change in the future who knows
+	defaultKeybinds = {},
+	bannedKeys = {
+		-- all keycodes banned from keybinds
+	},
 }
